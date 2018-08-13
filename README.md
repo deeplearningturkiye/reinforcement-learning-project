@@ -9,3 +9,5 @@ Simple tic tac toe example. Learns via Value Function at the moment. Policy Sear
 
 ## 2. Multi-Armed Bandits
 
+### Ten Armed Testbed
+Provides the underlying testbed for bandit problem.
