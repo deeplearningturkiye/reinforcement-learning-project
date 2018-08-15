@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 run = 2000
 ts = 1000
 
-epsilon = 0.1
-variance = 1
-limMin = -1
+variance = 0.5
+limMin = 0
 limMax = 5
 
 def greedyPolicy():
@@ -22,7 +21,7 @@ def greedyPolicy():
 
 	return averageRewards / run
 
-def epsilonGreedyPolicy():
+def epsilonGreedyPolicy(epsilon):
 	averageRewards = np.zeros(ts)
 
 	for num in range(run):
@@ -34,6 +33,7 @@ def epsilonGreedyPolicy():
 	return averageRewards / run
 
 plt.plot(greedyPolicy(), color='r')
-plt.plot(epsilonGreedyPolicy(), color='b')
+plt.plot(epsilonGreedyPolicy(0.1), color='b')
+plt.plot(epsilonGreedyPolicy(0.01), color='g')
 
 plt.show()

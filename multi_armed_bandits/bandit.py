@@ -1,5 +1,4 @@
 import math
-from random import gauss, uniform
 import numpy as np
 
 
@@ -10,8 +9,8 @@ class bandit:
     self.variance = variance
 
     self.step = 0
-    self.qTable = np.full(kArm, initial)
-    self.armMeans = [uniform(min, max) for i in range(self.kArm)]
+    self.qTable = np.full(self.kArm, initial)
+    self.armMeans = np.random.uniform(min, max, self.kArm)
 
   def takeAction(self):
     if self.epsilon > 0 and np.random.binomial(1, self.epsilon) == 1:
@@ -19,7 +18,8 @@ class bandit:
     else:
       idx = np.argmax(self.qTable)
 
-    reward = gauss(self.armMeans[idx], math.sqrt(self.variance))
+    reward = np.random.normal(self.armMeans[idx], self.variance)
+
     self.step += 1
     self.qTable[idx] +=  (1 / self.step) * (reward - self.qTable[idx])
 
