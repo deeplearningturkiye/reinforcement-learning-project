@@ -43,10 +43,22 @@ def optimisticInitialValues(initial):
 
 	return averageRewards / run
 
-plt.plot(greedyPolicy(), color='r')
+def upperConfidenceBound(ucb):
+	averageRewards = np.zeros(ts)
+
+	for num in range(run):
+		bnd = bandit(variance=variance, min=limMin, max=limMax, ucb=ucb)
+
+		for t in range(ts):
+			averageRewards[t] += bnd.takeAction()
+
+	return averageRewards / run
+
+# plt.plot(greedyPolicy(), color='r')
 plt.plot(epsilonGreedyPolicy(0.1), color='b')
-plt.plot(epsilonGreedyPolicy(0.01), color='g')
+# plt.plot(epsilonGreedyPolicy(0.01), color='g')
 # plt.plot(optimisticInitialValues(5), color='g')
+plt.plot(upperConfidenceBound(2), color='r')
 
 
 plt.show()
