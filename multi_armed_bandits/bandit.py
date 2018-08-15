@@ -8,7 +8,7 @@ class bandit:
     self.kArm = kArm
     self.variance = variance
 
-    self.step = 0
+    self.steps = np.zeros(self.kArm)
     self.qTable = np.full(self.kArm, initial)
     self.armMeans = np.random.uniform(min, max, self.kArm)
 
@@ -20,7 +20,7 @@ class bandit:
 
     reward = np.random.normal(self.armMeans[idx], self.variance)
 
-    self.step += 1
-    self.qTable[idx] +=  (1 / self.step) * (reward - self.qTable[idx])
+    self.steps[idx] += 1
+    self.qTable[idx] +=  (1 / self.steps[idx]) * (reward - self.qTable[idx])
 
     return reward
