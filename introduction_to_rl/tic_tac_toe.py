@@ -18,15 +18,11 @@ class Env():
             self.reward=0
             self.done=1
 
-
-        
         if(self.state[action[0]][action[1]]!=0):
             print("there is something wrong    :   this state is not avaliable for playing.")
         else:
             self.state[action[0]][action[1]]=agent_value
 
-        
-            
         if(self.control_win(self.state)==agent_value):
             self.reward=1
             self.done=1
@@ -57,7 +53,7 @@ class Env():
                 return state[0][2]
         empty_spaces=[]
         values_of_empty_spaces=[]
-        
+
         for i in range(3):
             for j in range(3):
                 if self.state[i][j] == 0:
@@ -67,8 +63,7 @@ class Env():
             return "DRAW"
         else:
             return 0
-                    
-                
+     
     def random_agent_act(self):
         empty_spaces=[]
         values_of_empty_spaces=[]
@@ -82,13 +77,8 @@ class Env():
         a =empty_spaces[random.choice(list(enumerate(values_of_empty_spaces)))[0]]
         
         self.state[a[0]][a[1]]=self.random_agent_value
-        
 
 
-
-
-
-        
 def learn_from_random_agent():
     """
 
@@ -118,65 +108,50 @@ def learn_from_random_agent():
     action -----> [i,j]  şeklinde gösterildiği için value function hesabında action(state) kullandım.
     """
 
-    episodes=100
-    value_table =[0,0,0,0,0,0,0,0,0]
-   
+    episodes = 100
+    value_table = [0,0,0,0,0,0,0,0,0]
+
     for i in range(episodes):
         eps=0.1
         env=Env(random_play=1)
         total_reward=0
-        
+
         done=0
         agent_value="X"   # it must be X for random play
         state=env.state
         old_a = [0,0]
         alfa=0.99
-        while not done:
-           
 
-            #print(state)
-            
+        while not done:
+
             empty_spaces=[]
             values_of_empty_spaces=[]
-            
+
             for i in range(3):
                 for j in range(3):
                     if state[i][j] == 0:
                         empty_spaces.append([i,j])
                         values_of_empty_spaces.append(value_table[i*3+j])
 
-
-
-
-                        
-            
             if np.random.random() < eps or np.sum(value_table) == 0:
-               
-                
-                a =empty_spaces[random.choice(list(enumerate(values_of_empty_spaces)))[0]]
+                a = empty_spaces[random.choice(list(enumerate(values_of_empty_spaces)))[0]]
             else:
                 # select the action with largest q value in state s
                 a = empty_spaces[np.argmax(values_of_empty_spaces)]
-           
-           
+
             new_s,reward,done,winner = env.step(a,agent_value)
             total_reward=reward+total_reward
+
             if (state!=[[0,0,0],[0,0,0],[0,0,0]]):
-                print(a)
-                value_table[old_a[0]*3+old_a[1]] =value_table[old_a[0]*3+old_a[1]] + alfa*(reward-value_table[old_a[0]*3+old_a[1]])
+                value_table[old_a[0]*3+old_a[1]] = value_table[old_a[0]*3+old_a[1]] + alfa*(reward-value_table[old_a[0]*3+old_a[1]])
             else:
-                value_table[a[0]*3+a[1]] =alfa*reward
+                value_table[a[0]*3+a[1]] = alfa*reward
+
             old_a=a
             state=new_s
-            
+
             if(done==1):
                 print("Winner is  :"+ str(winner))
                 print(value_table)
 
-                
-    
-
-
 learn_from_random_agent()
-
-
