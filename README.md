@@ -10,3 +10,6 @@ Provides the underlying testbed for bandit problem.
 
 ## 3. Finite Markov Decision Processes
 Uses the OpenAI Gym. Learns via Q-Learning.
+
+## 4. Temporal Difference
+Multiple approaches to CartPole problem.
