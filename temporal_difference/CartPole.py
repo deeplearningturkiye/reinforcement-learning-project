@@ -7,9 +7,7 @@
 
 
 import gym
-import itertools
 import numpy as np
-import pandas as pd
 
 
 # In[2]:
@@ -109,7 +107,7 @@ def Sarsa(env, num_episodes, discount_factor=0.9, alpha=0.5, epsilon=0.1):
         observation = env.reset()
         state=discretization(observation)
         
-        for t in itertools.count():
+        while True:
             
             # Take a step
             action_probs = policy(state)
@@ -157,7 +155,7 @@ def Q_learning(env, num_episodes, discount_factor=0.9, alpha=0.5, epsilon=0.1):
         observation = env.reset()
         state=discretization(observation)
         
-        for t in itertools.count():
+        while True:
             
             # Take a step
             action_probs = policy(state)
