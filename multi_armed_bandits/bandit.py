@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-
+##deneme
 class bandit:
   def __init__(self, kArm=10, epsilon=0, initial=0., ucb=0., variance=1, min=-2, max=2):
     self.epsilon = epsilon
