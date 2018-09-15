@@ -198,7 +198,7 @@ def Expected_Sarsa(env, num_episodes, discount_factor=1, alpha=0.5, epsilon=0.1)
         observation = env.reset()
         state=discretization(observation)
 
-        for t in itertools.count():
+        while True:
             
             # Take a step
             action_probs = policy(state)
