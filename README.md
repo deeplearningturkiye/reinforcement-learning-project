@@ -11,7 +11,7 @@ Provides the underlying testbed for bandit problem.
 
 ## 3. Finite Markov Decision Processes
 Uses the OpenAI Gym. Learns via Q-Learning.
-Benefited from [dennybritz](https://github.com/dennybritz/reinforcement-learning).
 
 ## 4. Temporal Difference
 Multiple approaches to CartPole problem.
+Benefited from [dennybritz](https://github.com/dennybritz/reinforcement-learning).
