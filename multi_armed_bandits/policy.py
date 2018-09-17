@@ -10,49 +10,54 @@ variance = 1
 limMin = 0
 limMax = 3
 
+
 def greedyPolicy():
-	averageRewards = np.zeros(ts)
+    averageRewards = np.zeros(ts)
 
-	for num in range(run):
-		bnd = bandit(variance=variance, min=limMin, max=limMax)
+    for num in range(run):
+        bnd = bandit(variance=variance, min=limMin, max=limMax)
 
-		for t in range(ts):
-			averageRewards[t] += bnd.takeAction()
+        for t in range(ts):
+            averageRewards[t] += bnd.takeAction()
 
-	return averageRewards / run
+    return averageRewards / run
+
 
 def epsilonGreedyPolicy(epsilon):
-	averageRewards = np.zeros(ts)
+    averageRewards = np.zeros(ts)
 
-	for num in range(run):
-		bnd = bandit(variance=variance, min=limMin, max=limMax, epsilon=epsilon)
+    for num in range(run):
+        bnd = bandit(variance=variance, min=limMin, max=limMax, epsilon=epsilon)
 
-		for t in range(ts):
-			averageRewards[t] += bnd.takeAction()
+        for t in range(ts):
+            averageRewards[t] += bnd.takeAction()
 
-	return averageRewards / run
+    return averageRewards / run
+
 
 def optimisticInitialValues(initial):
-	averageRewards = np.zeros(ts)
+    averageRewards = np.zeros(ts)
 
-	for num in range(run):
-		bnd = bandit(variance=variance, min=limMin, max=limMax, initial=initial)
+    for num in range(run):
+        bnd = bandit(variance=variance, min=limMin, max=limMax, initial=initial)
 
-		for t in range(ts):
-			averageRewards[t] += bnd.takeAction()
+        for t in range(ts):
+            averageRewards[t] += bnd.takeAction()
 
-	return averageRewards / run
+    return averageRewards / run
+
 
 def upperConfidenceBound(ucb):
-	averageRewards = np.zeros(ts)
+    averageRewards = np.zeros(ts)
 
-	for num in range(run):
-		bnd = bandit(variance=variance, min=limMin, max=limMax, ucb=ucb)
+    for num in range(run):
+        bnd = bandit(variance=variance, min=limMin, max=limMax, ucb=ucb)
 
-		for t in range(ts):
-			averageRewards[t] += bnd.takeAction()
+        for t in range(ts):
+            averageRewards[t] += bnd.takeAction()
 
-	return averageRewards / run
+    return averageRewards / run
+
 
 # plt.plot(greedyPolicy(), color='r')
 plt.plot(epsilonGreedyPolicy(0.1), color='b')

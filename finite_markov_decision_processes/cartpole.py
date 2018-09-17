@@ -5,80 +5,80 @@ import gym
 
 # cart_position_bins = np.linspace(-2.4, 2.4, 10)
 # cart_velocity_bins = np.linspace(-1, 1, 10)
-  
+
 class cartPole:
-  def __init__(self, epsilon, gamma):
-    self.qTable = {}
-    self.epsilon = epsilon
-    self.gamma = gamma
-    
-    self.env = gym.make('CartPole-v0')
-    self.actions = [0, 1]
+    def __init__(self, epsilon, gamma):
+        self.qTable = {}
+        self.epsilon = epsilon
+        self.gamma = gamma
 
-    self.pole_angle_bins = np.linspace(-0.42, 0.42, 10)
-    self.pole_velocity_bins = np.linspace(-1, 1, 10)
+        self.env = gym.make('CartPole-v0')
+        self.actions = [0, 1]
 
-    self.timesteps_over_time = []
+        self.pole_angle_bins = np.linspace(-0.42, 0.42, 10)
+        self.pole_velocity_bins = np.linspace(-1, 1, 10)
 
-  def observationToState(self, observation):
-    pole_angle = np.digitize(x=[observation[2]], bins=self.pole_angle_bins)[0]
-    pole_velocity = np.digitize(x=[observation[3]], bins=self.pole_velocity_bins)[0]
+        self.timesteps_over_time = []
 
-    return (pole_angle, pole_velocity)
+    def observationToState(self, observation):
+        pole_angle = np.digitize(x=[observation[2]], bins=self.pole_angle_bins)[0]
+        pole_velocity = np.digitize(x=[observation[3]], bins=self.pole_velocity_bins)[0]
 
-  def updateQTable(self, state, action, reward):
-    currentValue = self.qTable.get((state, action), None)
+        return (pole_angle, pole_velocity)
 
-    if currentValue is None:
-      self.qTable[(state, action)] = reward
-    else:
-      self.qTable[(state, action)] = currentValue + self.gamma * (reward - currentValue)
+    def updateQTable(self, state, action, reward):
+        currentValue = self.qTable.get((state, action), None)
 
-  def chooseAction(self, state):
-    if np.random.random() < self.epsilon:
-      action = self.env.action_space.sample()
-    else:
-      q = [self.qTable.get((state, action), 0.0) for action in self.actions]
-      action = self.actions[np.argmax(q)]
+        if currentValue is None:
+            self.qTable[(state, action)] = reward
+        else:
+            self.qTable[(state, action)] = currentValue + self.gamma * (reward - currentValue)
 
-    return action
+    def chooseAction(self, state):
+        if np.random.random() < self.epsilon:
+            action = self.env.action_space.sample()
+        else:
+            q = [self.qTable.get((state, action), 0.0) for action in self.actions]
+            action = self.actions[np.argmax(q)]
 
-  def run(self):
-    for i_episode in range(1000):
-      observation = self.env.reset()
-      state = self.observationToState(observation)
+        return action
 
-      done = False
-      ts = 1
+    def run(self):
+        for i_episode in range(1000):
+            observation = self.env.reset()
+            state = self.observationToState(observation)
 
-      episodeStates = []
-      episodeActions = []
-      
+            done = False
+            ts = 1
 
-      while not done:
-        self.env.render()
+            episodeStates = []
+            episodeActions = []
 
-        action = self.chooseAction(state)
+            while not done:
+                self.env.render()
 
-        observation, reward, done, info = self.env.step(action)
+                action = self.chooseAction(state)
 
-        episodeStates.append(state)
-        episodeActions.append(action)
+                observation, reward, done, info = self.env.step(action)
 
-        state = self.observationToState(observation)
+                episodeStates.append(state)
+                episodeActions.append(action)
 
-        if done:
-          print("Episode {} finished after {} timesteps".format(i_episode ,ts))
+                state = self.observationToState(observation)
 
-        ts += 1
+                if done:
+                    print("Episode {} finished after {} timesteps".format(i_episode, ts))
 
-      for i in range(len(episodeStates)):
-        state = episodeStates[i]
-        action = episodeActions[i]
+                ts += 1
 
-        self.updateQTable(state, action, ts)
+            for i in range(len(episodeStates)):
+                state = episodeStates[i]
+                action = episodeActions[i]
 
-      self.timesteps_over_time.append(ts)
+                self.updateQTable(state, action, ts)
+
+            self.timesteps_over_time.append(ts)
+
 
 cp = cartPole(0.1, 0.5)
 cp.run()
