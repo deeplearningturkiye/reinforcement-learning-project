@@ -3,17 +3,18 @@
 import numpy as np
 import random
 
+
 class Env():
     def __init__(self, random_play):
         self.random_play = random_play
-        self.state = [[0,0,0], [0,0,0], [0,0,0]]
+        self.state = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         self.reward = 0.5
         self.done = 0
         self.random_agent_value = "O"
         self.winner = "Random Agent"
-        
-    def step(self,action,agent_value):
-        ## action is a array like [0,1] state
+
+    def step(self, action, agent_value):
+        # action is a array like [0,1] state
         if(agent_value == "X" and self.control_win(self.state) == self.random_agent_value):
             self.reward = 0
             self.done = 1
@@ -36,22 +37,16 @@ class Env():
                 self.random_agent_act()
 
         return(self.state, self.reward, self.done, self.winner)
-            
-    def control_win(self, state):
-        done = 0
 
+    def control_win(self, state):
         for i in range(3):
             if state[i][0] != 0 and state[i][0] == state[i][1] and state[i][0] == state[i][2]:
-                done=1
                 return state[i][0]
             if state[0][i] != 0 and state[0][i] == state[1][i] and state[0][i] == state[2][i]:
-                done=1
                 return state[0][i]
             if state[0][0] != 0 and state[0][0] == state[1][1] and state[0][0] == state[2][2]:
-                done=1
                 return state[0][0]
             if state[0][2] != 0 and state[0][2] == state[1][1] and state[0][2] == state[2][0]:
-                done=1
                 return state[0][2]
 
         empty_spaces = []
@@ -66,11 +61,11 @@ class Env():
             return "DRAW"
         else:
             return 0
-     
+
     def random_agent_act(self):
         empty_spaces = []
         values_of_empty_spaces = []
-        
+
         for i in range(3):
             for j in range(3):
                 if self.state[i][j] == 0:
@@ -100,8 +95,8 @@ def learn_from_random_agent():
     value_table  ====> ortamdaki her durumun için; içinde bulunması ne kadar güzel bir durum olduğunu anlatan,
     ortamın durum sayısı kadar skaler değer barındıran matris.  ortamdaki durum sayısı 9 ise ===> len(value_func)=9
 
-    episodes   =====>öğrenme aşamasında kaç oyun oynatacağız.
-    
+    episodes   =====> öğrenme aşamasında kaç oyun oynatacağımız.
+
     This function is for learning the value function with playing random agent
     Random agent just play randomly to valid states
     formula of value function estimation is ======>    V (s) ← V (s) + α[V(s0)−V(S1)]
@@ -110,7 +105,7 @@ def learn_from_random_agent():
     """
 
     episodes = 100
-    value_table = [0,0,0,0,0,0,0,0,0]
+    value_table = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     for i in range(episodes):
         eps = 0.1
@@ -120,7 +115,7 @@ def learn_from_random_agent():
         done = 0
         agent_value = "X"   # it must be X for random play
         state = env.state
-        old_a = [0,0]
+        old_a = [0, 0]
         alfa = 0.99
 
         while not done:
@@ -142,7 +137,7 @@ def learn_from_random_agent():
             new_s, reward, done, winner = env.step(a, agent_value)
             total_reward = reward + total_reward
 
-            if (state!=[[0,0,0], [0,0,0], [0,0,0]]):
+            if (state != [[0, 0, 0], [0, 0, 0], [0, 0, 0]]):
                 value_table[old_a[0] * 3+old_a[1]] = value_table[old_a[0] * 3 + old_a[1]] + alfa*(reward - value_table[old_a[0] * 3 + old_a[1]])
             else:
                 value_table[a[0] * 3 + a[1]] = alfa * reward
@@ -153,5 +148,6 @@ def learn_from_random_agent():
             if(done == 1):
                 print("Winner is  :" + str(winner))
                 print(value_table)
+
 
 learn_from_random_agent()
