@@ -80,7 +80,7 @@ class sarsa_learning_agent():
     def set_q_table(self, q_table):
         self.q_table = q_table
 
-class double_q_Learning_Agent():
+class double_q_learning_agent():
     def __init__(self, epsilon, discount_factor,alpha, action_space):
         self.q_table_1 = defaultdict(lambda: np.zeros(action_space))
         self.q_table_2 = defaultdict(lambda: np.zeros(action_space))
