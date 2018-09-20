@@ -28,7 +28,7 @@ class policy():
 
 
 class q_learning_agent():
-    def __init__(self, epsilon, discount_factor,alpha, action_space):
+    def __init__(self, epsilon, discount_factor, alpha, action_space):
         self.q_table = defaultdict(lambda: np.zeros(action_space))
         self.epsilon = epsilon
         self.discount_factor = discount_factor
@@ -55,7 +55,7 @@ class q_learning_agent():
 
 
 class sarsa_learning_agent():
-    def __init__(self, epsilon, discount_factor,alpha, action_space):
+    def __init__(self, epsilon, discount_factor, alpha, action_space):
         self.q_table = defaultdict(lambda: np.zeros(action_space))
         self.epsilon = epsilon
         self.discount_factor = discount_factor
@@ -81,7 +81,7 @@ class sarsa_learning_agent():
         self.q_table = q_table
 
 class double_q_learning_agent():
-    def __init__(self, epsilon, discount_factor,alpha, action_space):
+    def __init__(self, epsilon, discount_factor, alpha, action_space):
         self.q_table_1 = defaultdict(lambda: np.zeros(action_space))
         self.q_table_2 = defaultdict(lambda: np.zeros(action_space))
         self.epsilon = epsilon
