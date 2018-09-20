@@ -21,13 +21,12 @@ You can find example usage below.
 
 ```
 import gym
-from rl_lib import q_learning_agent, double_q_learning_agent, sarsa_learning_agent
+from lib import q_learning_agent, double_q_learning_agent, sarsa_learning_agent
 
+env = gym.make("FrozenLake-v0")
+env.reset()
 
 def train(agent):
-    env = gym.make("FrozenLake-v0")
-    env.reset()
-
     for i_episode in range(1000):
         state = env.reset()
         while True:
