@@ -8,7 +8,6 @@ Included methods:
     Double Q Learning
 """
 import numpy as np
-import gym
 import random
 from collections import defaultdict
 
@@ -114,3 +113,32 @@ class double_q_learning_agent():
     def set_q_table(self, q_table_1, q_table_2):
         self.q_table_1 = q_table_1
         self.q_table_2 = q_table_2
+
+
+class Expected_Sarsa_learning_agent():
+    def init(self, epsilon, discount_factor,alpha, action_space):
+        self.q_table = defaultdict(lambda: np.zeros(action_space))
+        self.epsilon = epsilon
+        self.discount_factor = discount_factor
+        self.action_space = action_space
+        self.alpha = alpha
+        self.policy = policy(self.epsilon, self.action_space)
+
+    def learn(self, action, reward, state, next_state):
+        A_probs = self.policy.probs(self.q_table,next_state)
+        expected_value = np.dot(A_probs,self.q_table[next_state])
+        td_target = reward + self.discount_factor * expected_value
+        td_error = td_target - self.q_table[state][action]
+        self.q_table[state][action] += self.alpha * td_error
+
+    def select_action(self,state):
+        A_probs = self.policy.probs(self.q_table, state)
+        return np.random.choice(np.arange(len(A_probs)), p=A_probs)
+
+    def get_Q_table(self):
+        return self.q_table
+
+    def set_Q_table(self, q_table):
+        self.q_table = q_table
+
+
